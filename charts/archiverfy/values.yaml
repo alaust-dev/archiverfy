@@ -1,0 +1,4 @@
+archiverfy:
+  cron: "0 0 3 * * 2"
+  playlistId: "37i9dQZEVXcVWS3w5Egfpv"
+  archivePlaylistId: "5auueMYwIEHSzxAaAgGcAk"

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: ghcr.io/alaust-dev/archiverfy:1.0.0
+          imagePullPolicy: Always
+          env:
+            - name: SPOTIFY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: SPOTIFY_ID
+                  optional: false
+            - name: SPOTIFY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: SPOTIFY_SECRET
+                  optional: false
+            - name: REFRESH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: REFRESH_TOKEN
+                  optional: false
+            - name: CRON
+              value: {{ .Values.archiverfy.cron }}
+            - name: PLAYLIST_ID
+              value: {{ .Values.archiverfy.playlistId }}
+            - name: ARCHIVE_PLAYLIST_ID
+              value: {{ .Values.archiverfy.archivePlaylistId }}
+                  
